@@ -1,0 +1,146 @@
+# API Contract for UserService
+version: "1.0.0"
+description: "User management API specification"
+
+features:
+  - endpoint: "/users"
+    method: "get"
+    action: "getUsers"
+    description: "Get all users"
+    queryParams:
+      - name: "page"
+        type: "integer"
+        required: false
+        description: "Page number for pagination"
+      - name: "pageSize"
+        type: "integer"
+        required: false
+        description: "Number of items per page"
+      - name: "status"
+        type: "string"
+        required: false
+        description: "Filter users by status"
+    response:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          id: "string"
+          username: "string"
+          email: "string"
+          createdAt: "string"
+          status: "string"
+
+  - endpoint: "/users/{userId}"
+    method: "get"
+    action: "getUsersById"
+    description: "Get user by ID"
+    response:
+      type: "object"
+      properties:
+        id: "string"
+        username: "string"
+        email: "string"
+        firstName: "string"
+        lastName: "string"
+        phoneNumber: "string"
+        createdAt: "string"
+        updatedAt: "string"
+        status: "string"
+        preferences: "object"
+
+  - endpoint: "/users"
+    method: "post"
+    action: "createUser"
+    description: "Create a new user"
+    request:
+      type: "object"
+      properties:
+        username: "string"
+        email: "string"
+        password: "string"
+        firstName: "string"
+        lastName: "string"
+        phoneNumber: "string"
+    response:
+      type: "object"
+      properties:
+        id: "string"
+        username: "string"
+        email: "string"
+        createdAt: "string"
+
+  - endpoint: "/users/{userId}"
+    method: "put"
+    action: "updateUserById"
+    description: "Update user information"
+    request:
+      type: "object"
+      properties:
+        firstName: "string"
+        lastName: "string"
+        email: "string"
+        phoneNumber: "string"
+    response:
+      type: "object"
+      properties:
+        id: "string"
+        username: "string"
+        email: "string"
+        firstName: "string"
+        lastName: "string"
+        phoneNumber: "string"
+        updatedAt: "string"
+
+  - endpoint: "/users/{userId}/status"
+    method: "patch"
+    action: "updateUserStatus"
+    description: "Update user status"
+    request:
+      type: "object"
+      properties:
+        status: "string"
+    response:
+      type: "object"
+      properties:
+        id: "string"
+        status: "string"
+        updatedAt: "string"
+
+  - endpoint: "/users/search"
+    method: "get"
+    action: "searchUser"
+    description: "Search users by criteria"
+    queryParams:
+      - name: "query"
+        type: "string"
+        required: true
+        description: "Search query text"
+      - name: "field"
+        type: "string"
+        required: false
+        description: "Field to search (username, email, etc.)"
+    response:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          id: "string"
+          username: "string"
+          email: "string"
+          fullName: "string"
+          status: "string"
+
+  - endpoint: "/users/validate-email"
+    method: "post"
+    action: "validateUserEmail"
+    description: "Validate if email exists"
+    request:
+      type: "object"
+      properties:
+        email: "string"
+    response:
+      type: "object"
+      properties:
+        exists: "boolean"
+        valid: "boolean"
